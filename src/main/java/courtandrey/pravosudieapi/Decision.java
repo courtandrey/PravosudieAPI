@@ -1,6 +1,6 @@
 package courtandrey.pravosudieapi;
 
-class Decision {
+public class Decision {
     private String text;
     private String date;
     private String id;
