@@ -5,20 +5,16 @@ import java.util.List;
 public class Pravosudie {
     private final Scraper scraper;
 
-    public static void main(String[] args) {
-        System.out.println((new Pravosudie()).retrieveRandomDecisionMatchingText("аниме").getText());
-    }
-
     public Pravosudie() {
         scraper = new Scraper();
     }
 
-    public Decision retrieveRandomDecisionMatchingText(String text) {
+    public Decision retrieveRandomDecisionMatchingText(String text) throws PravosudieApiException {
         try {
             scraper.manageRequest().setText(text);
             return scraper.getRandomDecision();
         } catch (Exception e) {
-            return null;
+            throw new PravosudieApiException();
         }
     }
 }
