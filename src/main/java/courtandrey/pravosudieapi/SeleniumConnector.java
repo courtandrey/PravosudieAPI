@@ -27,7 +27,7 @@ class SeleniumConnector {
         }
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, nul);
         FirefoxOptions options = new FirefoxOptions();
-//        options.setHeadless(true);
+        options.setHeadless(true);
         driver = new FirefoxDriver(options);
         driver.manage().timeouts().scriptTimeout(Duration.of(10, ChronoUnit.MINUTES));
         driver.manage().timeouts().pageLoadTimeout(Duration.of(1, ChronoUnit.MINUTES));
