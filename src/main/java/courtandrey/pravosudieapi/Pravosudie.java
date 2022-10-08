@@ -3,10 +3,12 @@ package courtandrey.pravosudieapi;
 import java.util.List;
 
 public class Pravosudie {
-    private final Scraper scraper;
+    private static Scraper scraper;
 
     public Pravosudie() {
-        scraper = new Scraper();
+        if (scraper == null) {
+            scraper = new Scraper();
+        }
     }
 
     public Decision retrieveRandomDecisionMatchingText(String text) throws PravosudieApiException {
