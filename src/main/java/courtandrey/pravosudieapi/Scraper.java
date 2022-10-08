@@ -9,28 +9,26 @@ public class Scraper {
     private final SeleniumConnector connector;
     private final DecisionParser parser;
     private final SearchRequest request;
+    private UrlCreator creator;
 
-    public List<Decision> getPages(Integer limit) {
-        if (limit != null && limit <= 0) throw new IllegalArgumentException();
-        UrlCreator creator = new UrlCreator(request);
-        List<Decision> decisions = new ArrayList<>();
-        List<Decision> newDecisions;
-        do {
-            creator.incrementPage();
-            Document newDocument = connector.connect(creator.createUrl(), 5);
-            newDecisions = new ArrayList<>(parser.parse(newDocument));
-            if (limit != null) {
-                --limit;
-            }
-        } while (decisions.addAll(newDecisions) || (limit != null && limit == 0));
-        decisions.forEach(x -> x.setText(getText(x.getUrl())));
-        return decisions;
+    public Decision getRandomDecision() {
+        creator = new UrlCreator(request);
+        int page = (int) (Math.random() * (getPageCount() - 1));
+        creator.setPageCount(page);
+        Document document = connector.connect(creator.createUrl(), 5);
+        List<Decision> decisions = new ArrayList<>(parser.parse(document));
+        int decisionIndex = (int) (Math.random() * (decisions.size() - 1));
+        decisions.get(decisionIndex).setText(getText(decisions.get(decisionIndex).getUrl()));
+        return decisions.get(decisionIndex);
+    }
+    
+    int getPageCount() {
+        return parser.parsePage(connector.connect(creator.createUrl(), 5));
     }
 
     String getText(String url) {
         if (url == null) return null;
-        Document document = connector.connect(url, 5);
-        return parser.parseText(document);
+        return connector.getText(url, 5);
     }
 
     public SearchRequest manageRequest() {

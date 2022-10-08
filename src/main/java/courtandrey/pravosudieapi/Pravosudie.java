@@ -5,15 +5,21 @@ import java.util.List;
 public class Pravosudie {
     private final Scraper scraper;
 
+    public static void main(String[] args) {
+        System.out.println((new Pravosudie()).retrieveRandomDecisionMatchingText("аниме").getText());
+    }
+
     public Pravosudie() {
         scraper = new Scraper();
     }
 
     public Decision retrieveRandomDecisionMatchingText(String text) {
-        scraper.manageRequest().setText(text);
-        List<Decision> decisions = scraper.getPages(5);
-        decisions = decisions.stream().filter(x -> x.getText() != null).toList();
-        int random = (int) (Math.random() * decisions.size());
-        return decisions.get(random);
+        try {
+            scraper.manageRequest().setText(text);
+            return scraper.getRandomDecision();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

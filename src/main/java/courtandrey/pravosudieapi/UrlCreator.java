@@ -2,6 +2,7 @@ package courtandrey.pravosudieapi;
 
 class UrlCreator {
     private final SearchRequest request;
+    private final String URL = "https://bsr.sudrf.ru/bigs/portal.html#{\"query\":\"$TEXT\",\"type\":\"QUERY\",\"mode\":\"SIMPLE\",\"sorts\":[{\"field\":\"score\",\"order\":\"desc\"}],\"simpleSearchFieldsBundle\":\"default\",\"noOrpho\":false,\"start\":$PAGE}";
     private int pageCount;
 
     UrlCreator(SearchRequest request) {
@@ -12,7 +13,15 @@ class UrlCreator {
         ++pageCount;
     }
 
+    void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
     String createUrl() {
-        return null;
+        String url = "";
+        if (request.getText() != null) {
+            url = URL.replace("$TEXT", request.getText());
+        }
+        return url.replace("$PAGE", String.valueOf(pageCount * 10));
     }
 }
