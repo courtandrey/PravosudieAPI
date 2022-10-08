@@ -18,7 +18,6 @@ public class Pravosudie {
             scraper.manageRequest().setText(text);
             return scraper.getRandomDecision();
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
