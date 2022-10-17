@@ -1,7 +1,5 @@
 package courtandrey.pravosudieapi;
 
-import java.util.List;
-
 public class Pravosudie {
     private static Scraper scraper;
 
@@ -16,7 +14,7 @@ public class Pravosudie {
             scraper.manageRequest().setText(text);
             return scraper.getRandomDecision();
         } catch (Exception e) {
-            throw new PravosudieApiException();
+            throw new PravosudieApiException(e);
         }
     }
 }
